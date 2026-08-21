@@ -8,32 +8,17 @@
 
 CREED is a **local-first, human-governed, Glass Box assurance prototype** for software delivery and transformation work.
 
-- **Agentic AI**  
-  Orchestrates the multi-stage delivery assurance workflow from issue intake through investigation, Human Decision, learning, adoption and recall.
-
-- **Local GEN AI**  
-  Uses Qwen models running locally through Ollama for issue understanding, evidence-backed investigation and governed self-learning.
-
-- **Zero Data Egress**  
-  Because CREED uses locally hosted GenAI through Ollama, issue understanding, investigation and governed learning can run without sending AI data to an external model provider.
-
-- **Evidence-Backed Analysis**  
-  Retrieves governed evidence, identifies affected client implementations and analyses each candidate using its own supporting evidence.
-
-- **Human-in-Control**  
-  Pauses for Human Decision before governed outcomes are recorded or reusable knowledge is approved.
-
-- **Governed Self-Learning**  
-  Converts approved Human Corrections into reusable knowledge that can be versioned and adopted.
-
-- **Scoped Adoption**  
-  Controls exactly where approved knowledge may be reused instead of automatically applying it everywhere.
-
-- **Reversible Learning**  
-  Approved knowledge can later be recalled when new evidence invalidates it.
-
-- **Glass Box Audit**  
-  Keeps AI outputs, evidence, original sources, A-BOM relationships, Human Decisions, approvals, adoption scope and recall records traceable throughout the workflow.
+| Capability | Description |
+|---|---|
+| **Agentic AI** | Orchestrates the multi-stage delivery assurance workflow from issue intake through investigation, Human Decision, learning, adoption and recall. |
+| **Local GEN AI** | Uses Qwen models running locally through Ollama for issue understanding, evidence-backed investigation and governed self-learning. |
+| **Zero Data Egress** | Because CREED uses locally hosted GenAI through Ollama, issue understanding, investigation and governed learning can run without sending AI data to an external model provider. |
+| **Evidence-Backed Analysis** | Retrieves governed evidence, identifies affected client implementations and analyses each candidate using its own supporting evidence. |
+| **Human-in-Control** | Pauses for Human Decision before governed outcomes are recorded or reusable knowledge is approved. |
+| **Governed Self-Learning** | Converts approved Human Corrections into reusable knowledge that can be versioned and adopted. |
+| **Scoped Adoption** | Controls exactly where approved knowledge may be reused instead of automatically applying it everywhere. |
+| **Reversible Learning** | Approved knowledge can later be recalled when new evidence invalidates it. |
+| **Glass Box Audit** | Keeps AI outputs, evidence, original sources, A-BOM relationships, Human Decisions, approvals, adoption scope and recall records traceable throughout the workflow. |
 
 > **Correct forward. Recall backward. Learn reversibly.**
 
