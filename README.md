@@ -4,7 +4,7 @@
 
 <h1 align="center">CREED</h1>
 
-**Reversible Self-Learning Delivery Assurance for Software Transformation**
+**Reversible Self-Learning Delivery Assurance System for Software Transformation**
 
 CREED is a **local-first, human-governed, Glass Box assurance prototype** for software delivery and transformation work.
 
