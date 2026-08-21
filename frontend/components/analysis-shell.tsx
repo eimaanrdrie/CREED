@@ -1464,13 +1464,13 @@ function OriginalStoredSource({ detail }:{ detail:EvidenceDocumentDetail }) {
   if (kind === "docx") return <div className="analysis-source-original-unrendered-r96">
     <FileText size={26} />
     <div><strong>Original DOCX hash-verified</strong><p>A browser cannot render Word layout with guaranteed fidelity inside CREED. The bytes behind this link were verified against the ingestion SHA-256 before being exposed.</p></div>
-    <a href={blobUrl} target="_blank" rel="noreferrer"><ArrowUpRight size={14} />Open verified original file</a>
+    <a href={blobUrl ?? undefined} target="_blank" rel="noreferrer"><ArrowUpRight size={14} />Open verified original file</a>
   </div>;
 
   return <div className="analysis-source-original-unrendered-r96">
     <FileText size={26} />
     <div><strong>Original file hash-verified</strong><p>This file type has no browser-native fidelity preview. CREED verified the stored bytes against the ingestion SHA-256 before exposing them.</p></div>
-    <a href={blobUrl} target="_blank" rel="noreferrer"><ArrowUpRight size={14} />Open verified original file</a>
+    <a href={blobUrl ?? undefined} target="_blank" rel="noreferrer"><ArrowUpRight size={14} />Open verified original file</a>
   </div>;
 }
 
