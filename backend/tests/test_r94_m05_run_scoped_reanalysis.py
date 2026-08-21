@@ -11,6 +11,7 @@ from app.api.domain import get_domain_db
 from app.db.base import Base
 from app.domain.models import (
     AgentRun,
+    AnalysisImpactAssessment,
     Client,
     DeliveryMethod,
     Finding,
@@ -29,6 +30,7 @@ from app.domain.models import (
 from app.main import app
 import app.api.analysis_runs as analysis_api
 import app.services.analysis_runs as analysis_service
+import app.services.advanced as advanced_service
 
 
 @pytest.fixture
@@ -295,3 +297,40 @@ def test_learning_proposal_lookup_is_run_scoped(context):
     new_view = client.get(f"/api/v1/analysis-runs/{new_graph_id}/learning-proposal")
     assert new_view.status_code == 200
     assert new_view.json() is None
+
+
+def test_investigate_candidate_reuses_existing_detail_for_same_run(context):
+    _client, factory = context
+    issue_id, impl_id, old_run_id, _old_graph_id, old_inv_id, _principal = _seed(factory)
+
+    with factory() as db:
+        run = db.get(AgentRun, old_run_id)
+        assert run is not None
+        assessment = AnalysisImpactAssessment(
+            agent_run_id=run.id,
+            issue_id=issue_id,
+            implementation_id=impl_id,
+            impact_score=0.82,
+            impact_band="HIGH",
+            reported_source=False,
+            signals_json={"method": 1.0},
+            weights_json={"method": 1.0},
+            explanation_json=[],
+            evidence_refs_json=[],
+        )
+        db.add(assessment)
+        db.commit()
+
+        result = advanced_service.investigate_candidate(db, run, assessment)
+
+        assert result["investigation_id"] == old_inv_id
+        assert result["finding_type"] == "POTENTIALLY_AFFECTED"
+        assert result["statement"] == "Prior run finding"
+        assert result["evidence_validation_status"] == "VALID"
+        assert result["qwen_run_id"] is None
+        assert db.scalar(
+            select(func.count()).select_from(InvestigationDetail).where(InvestigationDetail.investigation_id == old_inv_id)
+        ) == 1
+        assert db.scalar(
+            select(func.count()).select_from(Finding).where(Finding.investigation_id == old_inv_id)
+        ) == 1

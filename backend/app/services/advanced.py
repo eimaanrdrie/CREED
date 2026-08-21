@@ -1459,6 +1459,30 @@ def _heuristic_investigation_output(
         missing_evidence=["Authoritative current implementation configuration or execution evidence"],
     )
 
+def _serialize_persisted_investigation(
+    db: Session,
+    inv: Investigation,
+    impl: Implementation,
+    detail: InvestigationDetail,
+) -> dict[str, Any]:
+    finding = db.get(Finding, detail.finding_id) if detail.finding_id else None
+    comparison = None
+    if isinstance(detail.model_output_json, dict):
+        comparison = detail.model_output_json.get("configuration_comparison")
+    return {
+        "investigation_id": inv.id,
+        "implementation_id": impl.id,
+        "finding_id": finding.id if finding else detail.finding_id,
+        "finding_type": finding.finding_type if finding else detail.model_output_json.get("finding_type") if isinstance(detail.model_output_json, dict) else None,
+        "statement": finding.statement if finding else detail.model_output_json.get("statement") if isinstance(detail.model_output_json, dict) else None,
+        "confidence": finding.confidence if finding else detail.model_output_json.get("confidence") if isinstance(detail.model_output_json, dict) else None,
+        "evidence_refs": list(finding.evidence_refs or []) if finding else list((detail.model_output_json or {}).get("evidence_ids") or []),
+        "missing_evidence": list(detail.missing_evidence_json or []),
+        "configuration_comparison": comparison,
+        "qwen_run_id": detail.qwen_run_id,
+        "evidence_validation_status": detail.evidence_validation_status,
+    }
+
 def investigate_candidate(db:Session, run:AgentRun, assessment:AnalysisImpactAssessment)->dict[str,Any]:
     impl=db.get(Implementation,assessment.implementation_id); issue=db.get(SupportIssue,run.issue_id) if run.issue_id else None
     if not impl or not issue: raise ValueError("INVESTIGATION_CONTEXT_MISSING")
@@ -1466,6 +1490,13 @@ def investigate_candidate(db:Session, run:AgentRun, assessment:AnalysisImpactAss
     inv=db.scalar(select(Investigation).where(Investigation.agent_run_id==run.id,Investigation.implementation_id==impl.id))
     if not inv:
         inv=Investigation(issue_id=issue.id,agent_run_id=run.id,implementation_id=impl.id,status="RUNNING",risk_score=assessment.impact_score,started_at=utc_now()); db.add(inv); db.flush()
+    existing_detail = db.scalar(select(InvestigationDetail).where(InvestigationDetail.investigation_id == inv.id))
+    if existing_detail is not None:
+        if inv.status in {"QUEUED", "RUNNING"}:
+            inv.status = "WAITING_HUMAN"
+        inv.completed_at = inv.completed_at or utc_now()
+        db.commit()
+        return _serialize_persisted_investigation(db, inv, impl, existing_detail)
     docs=_candidate_evidence(db,impl,assessment.method_version_id,run_id=run.id)
     # R94.0.2: bind evidence independently per candidate. First use explicit graph
     # provenance (direct evidence edges + USES_METHOD_VERSION.supporting evidence).

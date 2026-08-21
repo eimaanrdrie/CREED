@@ -126,6 +126,27 @@ export function AnalysisShell({ issue, initialUnderstanding, initialRun, autoRun
   }, [issue.id, run]);
 
   useEffect(() => {
+    if (!run || TERMINAL.has(run.status)) return;
+    let cancelled = false;
+    const interval = window.setInterval(() => {
+      void getLatestAnalysisRun(issue.id).then(latest => {
+        if (cancelled || !latest) return;
+        setRun(current => {
+          if (!current) return latest;
+          if (latest.id !== current.id) return latest;
+          if (latest.latest_event_seq > current.latest_event_seq) return latest;
+          if (latest.status !== current.status) return latest;
+          return current;
+        });
+      }).catch(() => {});
+    }, 3000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+    };
+  }, [issue.id, run?.id, run?.status]);
+
+  useEffect(() => {
     if (autoRun && !autoStarted.current) {
       autoStarted.current = true;
       if (!run) void startRun();
