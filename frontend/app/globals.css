@@ -75,6 +75,7 @@ a { color: inherit; text-decoration: none; }
   width: 34px; height: 34px; flex: 0 0 auto; display: grid; place-items: center;
   border-radius: var(--radius-xs); background: var(--gold); color: oklch(12% 0.030 258);
 }
+.brand-mark-image { width: 100%; height: 100%; object-fit: contain; display: block; }
 .brand-copy strong { display:block; color: var(--gold-pale); font-size: 14px; font-weight: 650; letter-spacing: .16em; line-height: 1; }
 .brand-copy span { display:block; margin-top: 5px; color: var(--text-muted); font: 600 var(--type-xs)/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .13em; }
 .nav-section { margin: 16px 9px 8px; color: oklch(64% 0.038 246); font: 650 var(--type-xs)/1 ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; letter-spacing: .18em; }
@@ -16823,9 +16824,9 @@ body,
   border-bottom-color: var(--creed-hairline);
 }
 .brand-mark {
-  background: var(--creed-action);
+  background: transparent;
   color: var(--creed-background);
-  border-color: color-mix(in oklab, var(--creed-action) 28%, var(--creed-hairline));
+  border-color: transparent;
 }
 .brand-copy strong { color: var(--creed-off-white); }
 .nav-section { color: var(--creed-muted); }

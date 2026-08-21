@@ -1,4 +1,8 @@
-# CREED
+<p align="center">
+  <img src="./frontend/public/creed-logo.png" alt="CREED logo" width="180" />
+</p>
+
+<h1 align="center">CREED</h1>
 
 **Reversible Self-Learning Delivery Assurance for Software Transformation**
 

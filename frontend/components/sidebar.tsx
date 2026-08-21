@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
   Activity,
@@ -22,7 +23,6 @@ import {
   Rocket,
   Scale,
   Server,
-  ShieldCheck,
   TriangleAlert,
   UserRoundCheck,
   UsersRound,
@@ -394,7 +394,9 @@ export function Sidebar({
     <aside ref={sidebarRef} id={id} className={`sidebar ${mobile ? "sidebar-mobile" : ""}`} aria-label="Primary navigation">
       <div className="brand-row">
         <a className="brand" href="/" aria-label="CREED overview">
-          <span className="brand-mark" aria-hidden="true"><ShieldCheck size={18} strokeWidth={1.8} /></span>
+          <span className="brand-mark" aria-hidden="true">
+            <Image src="/creed-logo.png" alt="" width={38} height={38} priority className="brand-mark-image" />
+          </span>
           <span className="brand-copy">
             <strong>CREED</strong>
           </span>
