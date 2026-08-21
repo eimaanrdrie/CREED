@@ -1,0 +1,68 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: creed
+      POSTGRES_PASSWORD: creed
+      POSTGRES_DB: creed
+    ports:
+      - "5432:5432"
+    volumes:
+      - creed_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U creed -d creed"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    environment:
+      APP_ENV: development
+      APP_VERSION: 0.94.6
+      FRONTEND_ORIGIN: http://localhost:3000
+      DATABASE_URL: postgresql+psycopg://creed:creed@postgres:5432/creed
+      DOCUMENT_STORAGE_PATH: /app/.data/documents
+      LANGGRAPH_CHECKPOINT_PATH: /app/.data/checkpoints/langgraph.sqlite
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3.5:9b}
+      OLLAMA_LEARNING_MODEL: ${OLLAMA_LEARNING_MODEL:-qwen3.5:4b}
+      LEARNING_CONTEXT_WINDOW: ${LEARNING_CONTEXT_WINDOW:-8192}
+      LEARNING_NUM_PREDICT: ${LEARNING_NUM_PREDICT:-900}
+      LEARNING_EXCERPT_CHARS: ${LEARNING_EXCERPT_CHARS:-1400}
+      LEARNING_GENERATION_ATTEMPTS: ${LEARNING_GENERATION_ATTEMPTS:-3}
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-ollama}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-qwen3-embedding:0.6b}
+      EMBEDDING_DIMENSIONS: 384
+      EMBEDDING_ALLOW_HASH_FALLBACK: "true"
+      DEMO_MODE_ENABLED: "true"
+      INVESTIGATION_TOP_K: 3
+      INVESTIGATION_MAX_DOCS: 2
+      INVESTIGATION_AUTHORITATIVE_CONFIG_CHARS: 2400
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8000:8000"
+    volumes:
+      - creed_documents:/app/.data/documents
+      - creed_langgraph:/app/.data/checkpoints
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  creed_postgres:
+  creed_documents:
+  creed_langgraph:

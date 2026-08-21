@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="placeholder.css"></head><body>
+<div id="cases"></div><pre id="overflow-report"></pre>
+<script>
+const widths=[320,390,480,560,680,760,860,1040,1200];
+const host=document.getElementById('cases');
+for(const w of widths){
+ const wrap=document.createElement('section'); wrap.style.width=w+'px'; wrap.style.margin='12px';
+ wrap.innerHTML=`<div class="knowledge-proof-stack-r27">
+ <details class="progressive-disclosure" open><summary><span class="progressive-disclosure-label">Evidence registry with an intentionally long heading</span><span class="progressive-disclosure-meta">123456/987654 documents with long metadata</span><svg class="progressive-disclosure-chevron" width="18"></svg></summary>
+ <div class="progressive-disclosure-body"><div class="registry-min-r27"><div class="registry-search-r06"><svg width="14"></svg><input value="extremely long evidence registry filter query that must stay inside the actual component width"></div>
+ <div class="registry-ledger-r06"><div class="registry-columns-r06"><span>DOCUMENT</span><span>SOURCE</span><span>INDEX</span><span>HASH</span><span></span></div>
+ <button class="registry-row-r06"><div class="registry-document-r06"><span class="registry-icon-r06"></span><div><strong>FSD-COL-104-EXTREMELY-LONG-PROMISE-TO-PAY-IMPLEMENTATION-DOCUMENT-NAME</strong><small>FUNCTIONAL_SPECIFICATION · v2026.08.17-release-candidate · 999 KB</small></div></div><span data-label="Source">LOCAL_REPOSITORY_WITH_LONG_SOURCE_NAME</span><b data-label="Index">INDEXED_WITH_LONG_STATE</b><code data-label="SHA-256">abcdef0123456789abcdef0123456789abcdef0123456789</code><svg width="14"></svg></button></div></div></div></details>
+ <details class="progressive-disclosure" open><summary><span class="progressive-disclosure-label">Provenance & ranking</span><span class="progressive-disclosure-meta">Inspect proof with extended supporting metadata</span><svg class="progressive-disclosure-chevron" width="18"></svg></summary>
+ <div class="progressive-disclosure-body"><div class="knowledge-provenance-min-r27"><div><svg width="16"></svg><span><strong>Evidence remains the source of truth.</strong> This deliberately very long governance sentence must wrap inside the proof card and must never widen the Knowledge page or the browser viewport.</span></div><div><svg width="16"></svg><span>SHA-256 seals source content with a deliberately-long-unbroken-token-abcdef0123456789abcdef0123456789</span></div><div><svg width="16"></svg><span>Chunk citations remain traceable across implementation documentation</span></div><div><svg width="16"></svg><span>Embedding state stays visible even when the label becomes unexpectedly verbose</span></div></div></div></details>
+ </div>`;
+ host.appendChild(wrap);
+}
+requestAnimationFrame(()=>{
+ const failures=[];
+ [...host.children].forEach((wrap,i)=>{
+   const root=wrap.querySelector('.knowledge-proof-stack-r27');
+   const nodes=[root,...root.querySelectorAll('.progressive-disclosure,.progressive-disclosure-body,.registry-min-r27,.registry-search-r06,.registry-ledger-r06,.registry-row-r06,.knowledge-provenance-min-r27,.knowledge-provenance-min-r27>div')];
+   for(const el of nodes){if(el.scrollWidth>el.clientWidth+1) failures.push({width:widths[i],className:el.className,scrollWidth:el.scrollWidth,clientWidth:el.clientWidth});}
+ });
+ document.getElementById('overflow-report').textContent=JSON.stringify({pageOverflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,failures});
+});
+</script></body></html>

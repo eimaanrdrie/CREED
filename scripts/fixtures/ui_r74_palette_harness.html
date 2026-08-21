@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><link rel="stylesheet" href="unused.css"></head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">C</span><span class="brand-copy"><strong>CREED</strong><span>ASSURANCE</span></span></div>
+      <nav class="nav nav-primary"><a class="nav-item active">Issues</a><a class="nav-item">AI Runtime</a></nav>
+    </aside>
+    <main class="main">
+      <div class="topbar"><span class="crumb-home">CREED</span></div>
+      <div class="page">
+        <h1>Off-white led assurance</h1>
+        <p class="subtitle">Secondary text preserves hierarchy without competing with operational values.</p>
+        <div style="display:flex;gap:8px;margin:20px 0"><button class="primary-btn">Verify</button><button class="secondary-btn">Inspect</button></div>
+        <section class="card" id="surface" style="padding:18px"><strong>Surface</strong><div id="raised" style="margin-top:12px;padding:14px;background:var(--panel-raised);border:1px solid var(--line)">Raised surface</div></section>
+        <section class="runtime-history-r30" style="margin-top:12px">
+          <div class="runtime-history-head-r30"><h2>Recent Qwen calls</h2></div>
+          <button class="runtime-execution-r30 selected"><span class="runtime-execution-icon-r30 ok">✓</span><span class="runtime-execution-copy-r30"><strong>Runtime Probe</strong><span>qwen3.5:9b</span></span><b>33.6 s</b><time>18 Aug</time><span>›</span></button>
+        </section>
+      </div>
+    </main>
+  </div>
+  <pre id="report"></pre>
+<script>
+const css = getComputedStyle(document.documentElement);
+const keys = ['--creed-background','--creed-surface','--creed-raised','--creed-off-white','--creed-secondary','--creed-muted','--creed-hairline','--creed-action','--creed-success','--creed-warning','--creed-danger'];
+const tokens = Object.fromEntries(keys.map(k => [k, css.getPropertyValue(k).trim()]));
+const style = sel => getComputedStyle(document.querySelector(sel));
+const report = {
+  tokens,
+  bodyBg: style('body').backgroundColor,
+  surfaceBg: style('#surface').backgroundColor,
+  raisedBg: style('#raised').backgroundColor,
+  heading: style('h1').color,
+  subtitle: style('.subtitle').color,
+  primaryBg: style('.primary-btn').backgroundColor,
+  primaryColor: style('.primary-btn').color,
+  activeBg: style('.nav-primary .nav-item.active').backgroundColor,
+  activeColor: style('.nav-primary .nav-item.active').color,
+  selectedRuntimeBg: style('.runtime-execution-r30.selected').backgroundColor,
+  pageOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth
+};
+document.querySelector('#report').textContent = JSON.stringify(report);
+</script>
+</body>
+</html>

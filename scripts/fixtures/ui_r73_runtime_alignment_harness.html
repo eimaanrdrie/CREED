@@ -1,0 +1,74 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../frontend/app/globals.css">
+<style>
+  body{padding:18px;background:var(--bg)}
+  .host{margin:0 auto 22px;border:1px dashed var(--line-strong)}
+  .host h4{margin:0;padding:6px 8px;color:var(--text-muted)}
+  .fake-icon{display:block;width:15px;height:15px;border:1px solid currentColor;border-radius:50%}
+</style></head>
+<body>
+<div id="hosts"></div>
+<template id="tpl">
+  <section class="runtime-r30" data-overflow-check="runtime-page">
+    <section class="runtime-history-r30" data-overflow-check="execution-proof">
+      <div class="runtime-history-head-r30" data-align="history-head"><div><h2>Recent Qwen calls</h2></div><span class="editorial-meta-r71 tone-ok"><span class="fake-icon"></span>1 shown</span></div>
+      <div class="runtime-history-list-r30">
+        <button class="runtime-execution-r30 selected" data-overflow-check="execution-row">
+          <span class="runtime-execution-icon-r30 ok"><span class="fake-icon"></span></span>
+          <div class="runtime-execution-copy-r30"><strong>Runtime Probe With Long Execution Name</strong><span>qwen3.5:9b-with-a-long-local-model-name</span></div>
+          <div class="runtime-execution-meta-r36"><b>33.6 s</b><time>18 Aug, 01:02:12 am</time></div>
+          <span>›</span>
+        </button>
+      </div>
+      <div class="runtime-selected-r30" data-overflow-check="selected-execution">
+        <div class="runtime-selected-head-r30" data-align="selected-head"><div><h3>Runtime Probe With Long Execution Name</h3></div><span class="runtime-state-inline-r71 tone-ok"><span class="status-dot ok"></span>SUCCESS</span></div>
+        <div class="runtime-selected-glance-r30" data-overflow-check="selected-metrics">
+          <div class="visual-metric tone-ok" data-align="metric"><div class="visual-metric-head"><span class="visual-metric-icon"><span class="fake-icon"></span></span><span>Duration</span></div><strong class="visual-metric-value">33.6 s</strong></div>
+          <div class="visual-metric" data-align="metric"><div class="visual-metric-head"><span class="visual-metric-icon"><span class="fake-icon"></span></span><span>Tokens</span></div><strong class="visual-metric-value">49 / 21</strong><small class="visual-metric-meta">input / output</small></div>
+          <div class="visual-metric tone-ok" data-align="metric"><div class="visual-metric-head"><span class="visual-metric-icon"><span class="fake-icon"></span></span><span>Structured</span></div><strong class="visual-metric-value">VALID</strong></div>
+        </div>
+        <details class="progressive-disclosure" open data-overflow-check="provenance"><summary data-align="provenance-summary"><span class="progressive-disclosure-label">Runtime provenance</span><span class="progressive-disclosure-meta">model · run · timing</span><span>⌄</span></summary><div class="progressive-disclosure-body"><div class="runtime-detail-grid-r30"><div class="runtime-detail-r30"><span>Run ID</span><strong>RUNTIME-PROBE-2026-EXTREMELY-LONG-RUN-ID-12345678901234567890</strong></div><div class="runtime-detail-r30"><span>Configured model</span><strong>qwen3.5:9b-with-an-extremely-long-local-model-configuration-name</strong></div><div class="runtime-detail-r30"><span>Actual model</span><strong>qwen3.5:9b</strong></div><div class="runtime-detail-r30"><span>Started</span><strong>18 Aug, 01:01:38 am</strong></div><div class="runtime-detail-r30"><span>Completed</span><strong>18 Aug, 01:02:12 am</strong></div><div class="runtime-detail-r30"><span>Model load</span><strong>2.34 s</strong></div></div></div></details>
+      </div>
+    </section>
+  </section>
+</template>
+<pre id="report"></pre>
+<script>
+(function(){
+ const widths=[420,520,620,760,900,1080,1200];
+ const root=document.getElementById('hosts'); const tpl=document.getElementById('tpl');
+ for(const w of widths){ const host=document.createElement('section'); host.className='host'; host.style.width=w+'px'; host.style.maxWidth='100%'; host.dataset.hostWidth=w; const h=document.createElement('h4'); h.textContent='proof '+w+'px'; host.appendChild(h); host.appendChild(tpl.content.cloneNode(true)); root.appendChild(host); }
+ requestAnimationFrame(()=>{
+  const failures=[]; const geometry=[];
+  for(const host of document.querySelectorAll('.host')){
+   const width=Number(host.dataset.hostWidth);
+   for(const el of host.querySelectorAll('[data-overflow-check]')){
+    const r=el.getBoundingClientRect(), hr=host.getBoundingClientRect();
+    if(el.scrollWidth>el.clientWidth+2 || r.right>hr.right+2 || r.left<hr.left-2){ failures.push({width,name:el.dataset.overflowCheck,clientWidth:el.clientWidth,scrollWidth:el.scrollWidth}); }
+   }
+   if(width>=900){
+    const panel=host.querySelector('.runtime-history-r30').getBoundingClientRect();
+    const head=host.querySelector('.runtime-history-head-r30 h2').getBoundingClientRect();
+    const selected=host.querySelector('.runtime-selected-head-r30 h3').getBoundingClientRect();
+    const metric=host.querySelector('.runtime-selected-glance-r30 .visual-metric-head').getBoundingClientRect();
+    const prov=host.querySelector('[data-align="provenance-summary"] .progressive-disclosure-label').getBoundingClientRect();
+    const metrics=[...host.querySelectorAll('.runtime-selected-glance-r30 .visual-metric')].map(el=>el.getBoundingClientRect().width);
+    const offsets={head:head.left-panel.left,selected:selected.left-panel.left,metric:metric.left-panel.left,provenance:prov.left-panel.left};
+    const expected=offsets.head;
+    geometry.push({width,offsets,metrics});
+    for(const [name,value] of Object.entries(offsets)){ if(Math.abs(value-expected)>1.5) failures.push({width,name:'rail-'+name,value,expected}); }
+    if(Math.max(...metrics)-Math.min(...metrics)>1.5) failures.push({width,name:'metric-widths',metrics});
+    const firstMetric=host.querySelector('.runtime-selected-glance-r30 .visual-metric');
+    const cs=getComputedStyle(firstMetric);
+    if(parseFloat(cs.borderTopWidth)>0 || parseFloat(cs.borderBottomWidth)>0 || parseFloat(cs.borderLeftWidth)>0 || parseFloat(cs.borderRadius)>0) failures.push({width,name:'metric-card-shell',border:`${cs.borderTopWidth}/${cs.borderRightWidth}/${cs.borderBottomWidth}/${cs.borderLeftWidth}`,radius:cs.borderRadius});
+    const disclosure=host.querySelector('.runtime-selected-r30 > .progressive-disclosure');
+    const ds=getComputedStyle(disclosure);
+    if(parseFloat(ds.borderLeftWidth)>0 || parseFloat(ds.borderRightWidth)>0 || parseFloat(ds.borderBottomWidth)>0 || parseFloat(ds.borderRadius)>0) failures.push({width,name:'provenance-nested-card',border:`${ds.borderTopWidth}/${ds.borderRightWidth}/${ds.borderBottomWidth}/${ds.borderLeftWidth}`,radius:ds.borderRadius});
+   }
+  }
+  document.getElementById('report').textContent=JSON.stringify({pageOverflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+2,failures,geometry},null,2);
+ });
+})();
+</script>
+</body></html>

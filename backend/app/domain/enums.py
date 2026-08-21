@@ -1,0 +1,68 @@
+from enum import StrEnum
+
+
+class IssueType(StrEnum):
+    BUG = "BUG"
+    CHANGE_REQUEST = "CHANGE_REQUEST"
+    ENHANCEMENT = "ENHANCEMENT"
+    INCIDENT = "INCIDENT"
+    UNKNOWN = "UNKNOWN"
+
+
+class IssueSeverity(StrEnum):
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    CRITICAL = "CRITICAL"
+    UNKNOWN = "UNKNOWN"
+
+
+class IssueStatus(StrEnum):
+    OPEN = "OPEN"
+    ANALYSING = "ANALYSING"
+    INVESTIGATING = "INVESTIGATING"
+    WAITING_HUMAN = "WAITING_HUMAN"
+    RESOLVED = "RESOLVED"
+    CLOSED = "CLOSED"
+
+
+class MethodVersionStatus(StrEnum):
+    DRAFT = "DRAFT"
+    PROPOSED = "PROPOSED"
+    APPROVED = "APPROVED"
+    REVOKED = "REVOKED"
+
+
+class InvestigationStatus(StrEnum):
+    QUEUED = "QUEUED"
+    RUNNING = "RUNNING"
+    WAITING_HUMAN = "WAITING_HUMAN"
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+
+
+class AgentStatus(StrEnum):
+    QUEUED = "QUEUED"
+    RUNNING = "RUNNING"
+    COMPLETED = "COMPLETED"
+    WAITING_HUMAN = "WAITING_HUMAN"
+    FAILED = "FAILED"
+    SKIPPED = "SKIPPED"
+    CANCELLED = "CANCELLED"
+
+
+class HumanDecisionType(StrEnum):
+    AFFECTED = "AFFECTED"
+    NOT_AFFECTED = "NOT_AFFECTED"
+    NEEDS_MORE_INVESTIGATION = "NEEDS_MORE_INVESTIGATION"
+    APPROVE_LEARNING = "APPROVE_LEARNING"
+    REJECT_LEARNING = "REJECT_LEARNING"
+    REVOKE_KNOWLEDGE = "REVOKE_KNOWLEDGE"
+
+
+class LearningStatus(StrEnum):
+    DRAFT = "DRAFT"
+    PROPOSED = "PROPOSED"
+    APPROVED = "APPROVED"
+    REJECTED = "REJECTED"
+    REVOKED = "REVOKED"

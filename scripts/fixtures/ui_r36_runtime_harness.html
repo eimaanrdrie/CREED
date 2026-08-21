@@ -1,0 +1,55 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../frontend/app/globals.css">
+<style>
+  body{padding:18px;background:var(--bg)}
+  .host{margin:0 auto 18px;border:1px dashed var(--line-strong)}
+  .host h4{margin:0;padding:5px 8px;color:var(--text-muted)}
+  .r36-icon{display:block;width:16px;height:16px;border:1px solid currentColor;border-radius:50%}
+</style></head>
+<body>
+<div id="hosts"></div>
+<template id="tpl">
+  <section class="runtime-r30" data-overflow-check="runtime-page">
+    <section class="runtime-history-r30" data-overflow-check="execution-proof">
+      <div class="runtime-history-head-r30"><div><span class="eyebrow">Execution proof</span><h2>Recent Qwen calls</h2></div><span class="signal-chip tone-ok"><span>128 shown with extended status</span></span></div>
+      <div class="runtime-history-list-r30">
+        <button class="runtime-execution-r30 selected" data-overflow-check="execution-row">
+          <span class="runtime-execution-icon-r30 ok"><span class="r36-icon"></span></span>
+          <div class="runtime-execution-copy-r30"><strong>issue_understanding_with_extremely_long_execution_purpose_and_node_name</strong><span>qwen3.5:9b-with-an-extremely-long-local-model-configuration-name-that-must-wrap</span></div>
+          <div class="runtime-execution-meta-r36"><b>123456.7 s</b><time>17 Aug, 12:52:18 pm with extended locale text</time></div>
+          <span>→</span>
+        </button>
+      </div>
+      <div class="runtime-selected-r30" data-overflow-check="selected-execution">
+        <div class="runtime-selected-head-r30"><div><span class="eyebrow">Selected execution</span><h3>issue_understanding_with_extremely_long_execution_purpose_and_node_name</h3></div><span class="runtime-state-r09 ok"><span class="status-dot ok"></span>SUCCESS WITH EXTENDED STATE</span></div>
+        <div class="runtime-selected-glance-r30" data-overflow-check="selected-metrics">
+          <div class="visual-metric tone-ok"><div class="visual-metric-head"><span>Duration</span></div><strong class="visual-metric-value">123456.7 s</strong></div>
+          <div class="visual-metric"><div class="visual-metric-head"><span>Tokens</span></div><strong class="visual-metric-value">123456 / 987654</strong><small class="visual-metric-meta">input / output with extended metadata</small></div>
+          <div class="visual-metric tone-ok"><div class="visual-metric-head"><span>Structured</span></div><strong class="visual-metric-value">VALIDATED STRUCTURED OUTPUT WITH LONG VALUE</strong></div>
+        </div>
+        <details class="progressive-disclosure" open><summary><span class="progressive-disclosure-label">Runtime provenance with extended label</span><span class="progressive-disclosure-meta">model · run · timing · tokens · structured output · provenance</span><span>⌄</span></summary><div class="progressive-disclosure-body"><div class="runtime-detail-grid-r30"><div class="runtime-detail-r30"><span>Run ID</span><strong>RUNTIME-PROBE-2026-EXTREMELY-LONG-RUN-ID-123456789012345678901234567890</strong></div><div class="runtime-detail-r30"><span>Configured model</span><strong>qwen3.5:9b-with-an-extremely-long-local-model-configuration-name</strong></div></div></div></details>
+      </div>
+    </section>
+  </section>
+</template>
+<pre id="overflow-report"></pre>
+<script>
+(function(){
+ const widths=[320,390,480,560,680,820,900,1040,1200];
+ const root=document.getElementById('hosts'); const tpl=document.getElementById('tpl');
+ for(const w of widths){ const host=document.createElement('section'); host.className='host'; host.style.width=w+'px'; host.style.maxWidth='100%'; host.dataset.hostWidth=w; const h=document.createElement('h4'); h.textContent='component '+w+'px'; host.appendChild(h); host.appendChild(tpl.content.cloneNode(true)); root.appendChild(host); }
+ requestAnimationFrame(()=>{
+  const failures=[];
+  for(const host of document.querySelectorAll('.host')){
+   for(const el of host.querySelectorAll('[data-overflow-check]')){
+    const r=el.getBoundingClientRect(), hr=host.getBoundingClientRect();
+    if(el.scrollWidth>el.clientWidth+2 || r.right>hr.right+2 || r.left<hr.left-2){ failures.push({host:host.dataset.hostWidth,name:el.dataset.overflowCheck,clientWidth:el.clientWidth,scrollWidth:el.scrollWidth,left:r.left,right:r.right,hostLeft:hr.left,hostRight:hr.right}); }
+   }
+  }
+  const pageOverflow=document.documentElement.scrollWidth>document.documentElement.clientWidth+2;
+  document.getElementById('overflow-report').textContent=JSON.stringify({pageOverflow,failures},null,2);
+ });
+})();
+</script>
+</body></html>

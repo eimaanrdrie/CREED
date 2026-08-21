@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="__CREED_CSS__"></head><body>
+<div id="stage" class="page analysis-r49 analysis-r57 analysis-r61 analysis-r65 analysis-r69 analysis-r70 analysis-r76-rev1 analysis-r76-rev2 analysis-r77-rev1" style="width:1180px;margin:24px;">
+  <main class="analysis-focus-r49">
+    <section class="analysis-evidence-workbench-r57 analysis-evidence-workbench-r65">
+      <div class="evidence-command-r57 evidence-command-r65"><div class="evidence-summary-r57 evidence-summary-r65"><span><b>8</b> sources</span><i>·</i><span><b>9</b> chunks searched</span></div></div>
+      <div class="evidence-layout-r57 evidence-layout-r65">
+        <div class="evidence-master-r57 evidence-master-r65">
+          <div class="evidence-master-head-r57 evidence-master-head-r65"><span>SOURCES</span><strong>8</strong></div>
+          <div class="evidence-master-list-r57 evidence-master-list-r65">
+            <button class="evidence-hit-r57 evidence-hit-r65 selected"><span class="evidence-hit-rank-r57">01</span><span class="evidence-hit-copy-r57 evidence-hit-copy-r65"><strong>CFG-MERIDIAN-PTP-IMPLEMENTATION-RETRY-EXTREMELY-LONG-DOCUMENT-IDENTIFIER-2026-08</strong><small>Promise-to-Pay / Settlement retry / PTP completion / duplicate transition</small></span><span class="evidence-hit-score-r57 evidence-hit-score-r65"><b>95%</b></span></button>
+            <button class="evidence-hit-r57 evidence-hit-r65"><span class="evidence-hit-rank-r57">02</span><span class="evidence-hit-copy-r57 evidence-hit-copy-r65"><strong>TEST-MERIDIAN-PTP-DUPLICATE-REPLAY-VALIDATION-RESULT-R1</strong><small>settlement retry PTP completion evidence</small></span><span class="evidence-hit-score-r57 evidence-hit-score-r65"><b>88%</b></span></button>
+            <button class="evidence-hit-r57 evidence-hit-r65"><span class="evidence-hit-rank-r57">03</span><span class="evidence-hit-copy-r57 evidence-hit-copy-r65"><strong>FSD-COL-104</strong><small>Promise-to-Pay event processing</small></span><span class="evidence-hit-score-r57 evidence-hit-score-r65"><b>79%</b></span></button>
+          </div>
+        </div>
+        <article class="evidence-inspector-r57 evidence-inspector-r65">
+          <header class="evidence-inspector-head-r57 evidence-inspector-head-r65"><div><h3>FSD-COL-104</h3><p>Chunk 1 · chars 0-439</p></div><div class="evidence-match-r57 evidence-match-r65"><strong>95%</strong><small>match</small></div></header>
+          <div class="evidence-inspector-status-r57 evidence-inspector-status-r65"><span>FSD · v1.0</span><span>LOCAL REPOSITORY</span><a class="evidence-open-source-r65">Open source</a></div>
+          <section class="evidence-excerpt-r57 evidence-excerpt-r65"><div class="evidence-section-title-r57 evidence-section-title-r65"><span></span><div><span>RELEVANT EXCERPT</span></div></div><p class="evidence-excerpt-clamp-r57 evidence-excerpt-clamp-r65"># FSD-COL-104 — Promise-to-Pay Event Processing Product: Collections Module: Promise-to-Pay Method: PTP-EVENT-v1 PTP events transition through PROPOSED, ACTIVE, BROKEN or COMPLETED. Version 1 processes an accepted event as a state mutation. Duplicate and out-of-order delivery must be investigated against implementation-specific evidence before any human decision is made.</p><details class="progressive-disclosure"><summary>Read full excerpt</summary><p class="evidence-excerpt-full-r57">This is the complete evidence excerpt. It deliberately contains a long sentence so the browser sweep can verify that source text remains at a readable line measure instead of stretching across the whole inspector.</p></details></section>
+        </article>
+      </div>
+    </section>
+  </main>
+</div><pre id="report"></pre>
+<script>
+const widths=[1180,980,760,520];
+const results=[];
+function nextFrame(){return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));}
+(async()=>{for(const width of widths){const stage=document.querySelector('#stage');stage.style.width=width+'px';await nextFrame();const rows=[...document.querySelectorAll('.evidence-hit-r65')];const rowChecks=rows.map((row)=>{const copy=row.querySelector('.evidence-hit-copy-r65').getBoundingClientRect();const score=row.querySelector('.evidence-hit-score-r65').getBoundingClientRect();const title=row.querySelector('strong').getBoundingClientRect();return {overflow:row.scrollWidth>row.clientWidth+1,overlap:copy.right>score.left+1,titleOutside:title.right>score.left+1};});const excerpt=document.querySelector('.evidence-excerpt-clamp-r65');const ex=excerpt.getBoundingClientRect();const layout=getComputedStyle(document.querySelector('.evidence-layout-r65')).gridTemplateColumns;results.push({width,layout,rowChecks,excerptWidth:Math.round(ex.width),stageOverflow:stage.scrollWidth>stage.clientWidth+1});}
+const failures=results.filter(r=>r.stageOverflow||r.rowChecks.some(x=>x.overflow||x.overlap||x.titleOutside));document.querySelector('#report').textContent=JSON.stringify({results,failures,pageOverflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1},null,2);})();
+</script></body></html>

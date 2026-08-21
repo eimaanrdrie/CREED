@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><link rel="stylesheet" href="unused.css"></head>
+<body>
+  <div class="shell" style="grid-template-columns:220px minmax(0,1fr)">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">C</span><span class="brand-copy"><strong>CREED</strong><span>ASSURANCE</span></span></div>
+      <nav class="nav nav-primary"><a class="nav-item active">Issues</a><a class="nav-item">AI Runtime</a></nav>
+    </aside>
+    <main class="main">
+      <div class="page">
+        <h1>Theme consistency</h1>
+        <p class="subtitle">Supporting copy stays secondary.</p>
+        <section class="card" id="panel" style="padding:16px;margin-top:16px">
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+            <button class="primary-btn">Verify</button>
+            <button class="secondary-btn">Inspect</button>
+            <span id="ok" class="status-pill ok">READY</span>
+            <span id="warn" class="signal-chip tone-warn"><span>WAITING HUMAN</span></span>
+            <span id="bad" class="severity-badge severity-high">HIGH</span>
+            <span id="info" class="agent-status-badge running">RUNNING</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+            <div class="radar-filter-r26"><button id="radarActive" class="active">Impact</button></div>
+            <div class="knowledge-command-r27"><button id="knowledgeActive" class="active">Find</button></div>
+            <div class="audit-filter-row-r29"><button id="auditActive" class="active">Qwen</button></div>
+            <button id="pageActive" class="audit-page-number-r48 active">2</button>
+          </div>
+          <details class="progressive-disclosure" open style="margin-top:16px">
+            <summary><span class="progressive-disclosure-label">Inspect proof</span><span class="progressive-disclosure-meta">model · evidence</span><span class="progressive-disclosure-chevron">⌄</span></summary>
+            <div class="progressive-disclosure-body">Observable proof only.</div>
+          </details>
+        </section>
+        <section class="runtime-history-r30" style="margin-top:16px">
+          <div class="runtime-history-head-r30"><h2>Recent Qwen calls</h2></div>
+          <button id="runtimeSelected" class="runtime-execution-r30 selected"><span class="runtime-execution-icon-r30 ok">✓</span><span class="runtime-execution-copy-r30"><strong>Runtime Probe</strong><span>qwen3.5:9b</span></span><b>33.6 s</b><time>18 Aug</time><span>›</span></button>
+        </section>
+        <div class="radar-ledger-row selected" id="radarSelected" style="padding:12px;margin-top:12px">Selected radar row</div>
+        <div class="issue-ledger-row" id="issueHover" style="margin-top:12px">Issue row</div>
+      </div>
+    </main>
+  </div>
+  <pre id="report"></pre>
+<script>
+const s = sel => getComputedStyle(document.querySelector(sel));
+function snapshot() {
+  const root = getComputedStyle(document.documentElement);
+  return {
+    panelBg: s('#panel').backgroundColor,
+    panelBorder: s('#panel').borderColor,
+    title: s('h1').color,
+    subtitle: s('.subtitle').color,
+    okColor: s('#ok').color,
+    okBg: s('#ok').backgroundColor,
+    okRadius: s('#ok').borderRadius,
+    warnColor: s('#warn').color,
+    badColor: s('#bad').color,
+    infoColor: s('#info').color,
+    infoRadius: s('#info').borderRadius,
+    radarActiveBg: s('#radarActive').backgroundColor,
+    knowledgeActiveBg: s('#knowledgeActive').backgroundColor,
+    auditActiveBg: s('#auditActive').backgroundColor,
+    pageActiveBg: s('#pageActive').backgroundColor,
+    pageActiveColor: s('#pageActive').color,
+    pageActiveRadius: s('#pageActive').borderRadius,
+    runtimeSelectedBg: s('#runtimeSelected').backgroundColor,
+    radarSelectedBg: s('#radarSelected').backgroundColor,
+    disclosureColor: s('.progressive-disclosure > summary').color,
+    disclosureBorder: s('.progressive-disclosure').borderTopColor,
+    pageOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    tokens: Object.fromEntries(['--creed-surface-hover','--creed-surface-selected','--creed-border-accent'].map(k => [k, root.getPropertyValue(k).trim()]))
+  };
+}
+window.snapshot = snapshot;
+document.querySelector('#report').textContent = JSON.stringify(snapshot());
+</script>
+</body>
+</html>
